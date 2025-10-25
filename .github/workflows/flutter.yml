@@ -1,5 +1,5 @@
-# .github/workflows/flutter.yml
-name: Flutter CI
+iname: Flutter CI
+
 on:
   push:
     branches: [ main ]
@@ -8,8 +8,9 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -23,13 +24,15 @@ jobs:
         with:
           channel: stable
 
-      - name: Pub get
+      - name: Install dependencies
         run: flutter pub get
 
-      - name: Create Android folder (idempotent)
-        run: flutter create .
+      - name: Recreate android folder
+        run: |
+          rm -rf android
+          flutter create .
 
-      - name: Build APK
+      - name: Build release APK
         run: flutter build apk --release
 
       - name: Upload artifact
