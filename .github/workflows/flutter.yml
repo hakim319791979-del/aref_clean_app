@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -24,7 +24,10 @@ jobs:
         with:
           channel: stable
 
-            - name: Create Android folder if missing
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Create Android folder if missing
         run: flutter create .
 
       - name: Disable device check
@@ -32,6 +35,7 @@ jobs:
 
       - name: Build release APK
         run: flutter build apk --release --no-sound-null-safety
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
