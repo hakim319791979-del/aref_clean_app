@@ -30,6 +30,12 @@ jobs:
       - name: Create Android folder if missing
         run: flutter create .
 
+      - name: Prepare Gradle and Kotlin
+        run: |
+          cd android
+          sed -i '1s;^;plugins {\nid("org.jetbrains.kotlin.android") version "1.9.24" apply false\n}\n;' build.gradle
+          cd ..
+
       - name: Disable device check
         run: flutter config --no-analytics && flutter devices
 
