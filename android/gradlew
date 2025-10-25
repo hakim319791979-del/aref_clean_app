@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-##############################################################################
-# Gradle start up script for UN*X
-##############################################################################
-APP_BASE_DIR=$(cd "$(dirname "$0")"; pwd)
-exec "$APP_BASE_DIR"/gradle/wrapper/gradle-wrapper.jar "$@"
