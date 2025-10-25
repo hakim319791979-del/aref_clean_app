@@ -1,0 +1,2 @@
+rootProject.name = "aref_clean_app"
+include ':app'
