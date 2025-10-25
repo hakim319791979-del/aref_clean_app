@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Java 17
@@ -17,13 +17,26 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Gradle wrapper correctly
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+
+      - name: Create Gradle Wrapper
         run: |
           cd android
-          rm -f gradlew
           gradle wrapper --gradle-version 8.4
           chmod +x gradlew
           cd ..
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Upload artifact (APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
