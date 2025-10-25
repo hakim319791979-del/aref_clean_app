@@ -24,15 +24,14 @@ jobs:
         with:
           channel: stable
 
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Create Android folder if missing
+            - name: Create Android folder if missing
         run: flutter create .
 
-      - name: Build release APK
-        run: flutter build apk --release
+      - name: Disable device check
+        run: flutter config --no-analytics && flutter devices
 
+      - name: Build release APK
+        run: flutter build apk --release --no-sound-null-safety
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
