@@ -1,7 +1,7 @@
 name: aref_clean_app
-description: Minimal safe Flutter app for "اعرف قبل أن تسافر"
+description: تطبيق اعرف قبل أن تسافر
 publish_to: "none"
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
