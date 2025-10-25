@@ -1,5 +1,5 @@
+# .github/workflows/flutter.yml
 name: Flutter CI
-
 on:
   push:
     branches: [ main ]
@@ -8,9 +8,8 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -24,23 +23,14 @@ jobs:
         with:
           channel: stable
 
-      - name: Get Flutter dependencies
+      - name: Pub get
         run: flutter pub get
 
-      - name: Create Android folder if missing
+      - name: Create Android folder (idempotent)
         run: flutter create .
 
-      - name: Prepare Gradle and Kotlin
-        run: |
-          cd android
-          sed -i '1s;^;plugins {\nid("org.jetbrains.kotlin.android") version "1.9.24" apply false\n}\n;' build.gradle
-          cd ..
-
-      - name: Disable device check
-        run: flutter config --no-analytics && flutter devices
-
-      - name: Build release APK
-        run: flutter build apk --release --no-sound-null-safety
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
