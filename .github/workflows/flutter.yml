@@ -8,6 +8,10 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ # تأكد أن هذا هو جذر المشروع حيث يوجد pubspec.yaml
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,14 +27,11 @@ jobs:
         with:
           channel: stable
 
-      - name: Ensure Gradle wrapper
-        run: |
-          cd android
-          gradle wrapper --gradle-version 8.3
-          cd ..
-
-      - name: Pub get
+      - name: Verify Flutter project
         run: flutter pub get
+
+      - name: Create Android folder if missing
+        run: flutter create . --platforms=android --org com.example --project-name aref_clean_app --overwrite
 
       - name: Build APK
         run: flutter build apk --release
